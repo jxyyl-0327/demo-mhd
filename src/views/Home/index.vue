@@ -1,5 +1,6 @@
 <template>
   <div class="page-home">
+    <!-- 首页头部 开始-->
     <header class="index-header">
       <a href="mine.html?cpid=0">
         <div class="header-user">
@@ -11,27 +12,60 @@
         <div class="header-search"></div>
       </a>
     </header>
+    <!-- 首页头部 结束 -->
+    <Swiper class="my-swiper" @change="onChange">
+      <SwiperItem
+        ><img
+          src="http://img.manhuadao.cn/upload/AdGroup201906/9315f7dd68b346928219f29bd9c89e60.jpg"
+          alt=""
+      /></SwiperItem>
+      <SwiperItem
+        ><img
+          src="http://img.manhuadao.cn/upload/AdGroup201903/22b43c03a0f943cda001c5338fe0ddd9.jpg"
+          alt=""
+      /></SwiperItem>
+      <SwiperItem
+        ><img
+          src="http://img.manhuadao.cn/upload/AdGroup202003/dda50e4233e34186910fd490aea1cd91.jpg"
+          alt=""
+      /></SwiperItem>
+    </Swiper>
   </div>
 </template>
 <script>
+// import Swiper from '@/components/Swiper/Swiper.vue'
+// import SwiperItem from '@/components/Swiper/SwiperItem.vue'
+import { Swiper, SwiperItem } from '@/components/Swiper'
+
 export default {
-  name: 'Home'
+  name: 'Home',
+  components: {
+    Swiper,
+    SwiperItem
+  },
+  methods: {
+    onChange (index) {
+      console.log(index)
+    }
+  }
 }
 </script>
 
 <style lang="scss" scoped>
+@import "@/assets/styles/mixins.scss";
 .page-home {
   display: flex;
-  height: 100%;
   flex-direction: column;
-
+  height: 100%;
   .index-header {
-    height: 44px;
+    @include border-bottom;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 0 20px;
+    height: 44px;
     box-sizing: border-box;
+    // border-bottom: 1px solid #e9e9e9;
     .user-btn {
       width: 25px;
       height: 25px;
@@ -41,7 +75,7 @@ export default {
     .header-logo {
       width: 92px;
       height: 28px;
-      background: url("../../assets/icon/logo.png") no-repeat;
+      background: url("../../assets/logo.png") no-repeat;
       background-size: 100%;
     }
     .header-search {
@@ -50,6 +84,9 @@ export default {
       background: url("../../assets/icon/search.png") no-repeat;
       background-size: 100%;
     }
+  }
+  .my-swiper img {
+    width: 100%;
   }
 }
 </style>
