@@ -13,22 +13,12 @@
       </a>
     </header>
     <!-- 首页头部 结束 -->
-    <Swiper class="my-swiper" @change="onChange">
-      <SwiperItem
-        ><img
-          src="http://img.manhuadao.cn/upload/AdGroup201906/9315f7dd68b346928219f29bd9c89e60.jpg"
-          alt=""
-      /></SwiperItem>
-      <SwiperItem
-        ><img
-          src="http://img.manhuadao.cn/upload/AdGroup201903/22b43c03a0f943cda001c5338fe0ddd9.jpg"
-          alt=""
-      /></SwiperItem>
-      <SwiperItem
-        ><img
-          src="http://img.manhuadao.cn/upload/AdGroup202003/dda50e4233e34186910fd490aea1cd91.jpg"
-          alt=""
-      /></SwiperItem>
+    <hr />
+
+    <Swiper class="my-swiper" @change="onChange" v-if="bannerList.length > 0">
+      <SwiperItem v-for="item in bannerList" :key="item.id">
+        <img :src="item.imageurl" alt />
+      </SwiperItem>
     </Swiper>
   </div>
 </template>
@@ -36,6 +26,7 @@
 // import Swiper from '@/components/Swiper/Swiper.vue'
 // import SwiperItem from '@/components/Swiper/SwiperItem.vue'
 import { Swiper, SwiperItem } from '@/components/Swiper'
+import { getBanner } from '@/api/cartoon'
 
 export default {
   name: 'Home',
@@ -43,10 +34,30 @@ export default {
     Swiper,
     SwiperItem
   },
+  data () {
+    return {
+      bannerList: []
+    }
+  },
   methods: {
     onChange (index) {
       console.log(index)
     }
+  },
+  created () {
+    getBanner()
+      .then(res => {
+        // console.log(res)
+        if (res.code === 200) {
+          this.bannerList = res.info
+        } else {
+          alert(res.code_msg)
+        }
+      })
+      .catch(err => {
+        console.log(err)
+        alert('网络异常，稍后重试')
+      })
   }
 }
 </script>
@@ -65,7 +76,7 @@ export default {
     padding: 0 20px;
     height: 44px;
     box-sizing: border-box;
-    // border-bottom: 1px solid #e9e9e9;
+
     .user-btn {
       width: 25px;
       height: 25px;
